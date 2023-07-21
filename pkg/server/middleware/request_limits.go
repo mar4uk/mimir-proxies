@@ -34,6 +34,8 @@ func (l RequestLimits) Wrap(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log, _ := spanlogger.New(r.Context(), "middleware.RequestLimits.Wrap")
 		defer log.Span.Finish()
+		level.Info(log).Log("msg", "blablabla")
+		_ = level.Info(l.logger).Log("msg", "test message")
 
 		reader := io.LimitReader(r.Body, int64(l.maxRequestBodySize)+1)
 		body, err := io.ReadAll(reader)
